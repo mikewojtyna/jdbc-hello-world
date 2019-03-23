@@ -11,6 +11,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Collection;
 
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+
 public class EmployeeDaoTest {
 
 	private EmployeeDao employeeDao;
@@ -79,6 +81,24 @@ public class EmployeeDaoTest {
 		// then
 		Assertions.assertThat(employeeDao.findByName("Rafal"))
 			.isEmpty();
+	}
+
+	@DisplayName("should update employee")
+	@Test
+	void test4() throws Exception {
+		// given
+		Employee john = new Employee("John");
+		Employee goobar = new Employee("Goobar");
+		int johnId = employeeDao.add(john);
+		employeeDao.add(goobar);
+		Employee johnAfterChangeToGeorge = new Employee("George");
+
+		// when
+		employeeDao.update(johnId, johnAfterChangeToGeorge);
+
+		// then
+		assertThat(employeeDao.findByName("George")).hasSize(1);
+		assertThat(employeeDao.findByName("John")).isEmpty();
 	}
 
 	private Connection initDb() throws SQLException {

@@ -9,9 +9,10 @@ public class JdbcEmployeeDao implements EmployeeDao {
 		"INSERT INTO " + "employee (name) VALUES (?)";
 	private static final String FIND_EMPLOYEE_STATEMENT =
 		"SELECT name " + "FROM employee WHERE name = ?";
-
 	private static final String DELETE_EMPLOYEE_STATEMENT =
 		"DELETE FROM " + "employee WHERE id = ?";
+	private static final String UPDATE_EMPLOYEE_SQL =
+		"UPDATE employee " + "SET name = ? WHERE id = ?";
 
 	private Connection connection;
 
@@ -53,6 +54,16 @@ public class JdbcEmployeeDao implements EmployeeDao {
 
 	@Override
 	public void update(int id, Employee newEmployee) {
+		try (PreparedStatement preparedStatement = connection
+			.prepareStatement(UPDATE_EMPLOYEE_SQL)) {
+			preparedStatement.setString(1, newEmployee.getName());
+			preparedStatement.setInt(2, id);
+			preparedStatement.executeUpdate();
+		}
+		catch (SQLException e) {
+			throw new RuntimeException("Failed to update " +
+				"employee.", e);
+		}
 
 	}
 
