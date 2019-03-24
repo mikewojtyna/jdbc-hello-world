@@ -66,6 +66,28 @@ public class EmployeeDaoTest {
 			.containsOnly(leszek0, leszek1);
 	}
 
+	@DisplayName("should not allow to perform sql injection using find by "
+		+ "name")
+	@Test
+	void test5() throws Exception {
+		// given
+		Employee leszek0 = new Employee("Leszek");
+		Employee bartek = new Employee("Bartek");
+		Employee jakub = new Employee("Jakub");
+		Employee leszek1 = new Employee("Leszek");
+		employeeDao.add(leszek0);
+		employeeDao.add(bartek);
+		employeeDao.add(jakub);
+		employeeDao.add(leszek1);
+
+		// when
+		Collection<Employee> allEmployees = employeeDao
+			.findByName("' OR '1'='1");
+
+		// then
+		Assertions.assertThat(allEmployees).isEmpty();
+	}
+
 	@DisplayName("should delete employee")
 	@Test
 	void test2() throws Exception {
