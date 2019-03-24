@@ -55,6 +55,13 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+
 	</dependencies>
 
 	<properties>
@@ -63,5 +70,6 @@
 		<maven-plugin.version>3.8.0</maven-plugin.version>
 		<java.version>8</java.version>
 		<assertj-core.version>3.12.2</assertj-core.version>
+		<hibernate.version>5.4.2.Final</hibernate.version>
 	</properties>
 </project>
